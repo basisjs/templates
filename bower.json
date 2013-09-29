@@ -1,0 +1,7 @@
+{
+    "name": "bt",
+    "version": "0.1",
+    "dependencies": {
+        "basisjs": "1.0.0-rc2"
+    }
+}

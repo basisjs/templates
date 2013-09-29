@@ -1,0 +1,25 @@
+{
+  "name": "basisjs-tools",
+  "title": "Basis developer tools",
+  "version": "0.1",
+  "homepage": "https://github.com/basisjs/templates",
+  "description": "Basis.js template and l10n modules as standalone library",
+  "author": "Roman Dvornov <rdvornov@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    },
+    {
+      "type": "GPL",
+      "url": "http://www.opensource.org/licenses/GPL-2.0"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/basisjs/templates.git"
+  },
+  "dependencies": {
+    "basisjs-tools": "1.1.0"
+  }
+}
