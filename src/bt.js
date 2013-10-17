@@ -29,8 +29,17 @@ global['bt'] = module.exports = basis.object.extend(templateWrapper, {
     }
   },
 
+  dispose: function(tmpl){
+    var template = basis.template.resolveTemplateById(tmpl.templateId_);
+
+    if (!template)
+    {
+      ;;;basis.dev.warn('Template is not resolved for ', tmpl);
+      return;
+    }
+
+    template.clearInstance(tmpl);
+  },
+
   template: templateWrapper
 });
-
-// hide basis from global
-delete window.basis;

@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>Basis.js templates</title>
+  <script src="../lib/basisjs/src/basis.js" basis-config="autoload: 'bbt', noConflict: true, extProto: false"></script>
+</head>
+
+<body>
+  <!-- This file using by basisjs-tools builder to make a library build -->
+  <script id="test" type="text/basis-template">
+    <h1 event-click="test">hello world!</h1>
+  </script>
+
+  <script>
+    document.body.appendChild(bt('id:test').createInstance(null, function(name, event){
+      alert(name + ' ' + event);
+    }).element);
+  </script>
+</body>
+
+</html>

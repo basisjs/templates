@@ -15,9 +15,9 @@
   </script>
 
   <script>
-    document.body.appendChild(bt('id:test').createInstance(null, function(name, event){
-      alert(name + ' ' + event);
-    }).element);
+    var tmpl = bt("id:test").createInstance(null,function(a,b){alert(a+" "+b)});
+    document.body.appendChild(tmpl.element)
+    bt.dispose(tmpl);
   </script>
 </body>
 
