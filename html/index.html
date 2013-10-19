@@ -13,19 +13,37 @@
     <!-- Bootstrap core CSS -->
     <link href="assets/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <style>
-      body {
-        padding-top: 50px;
-        padding-bottom: 20px;
-      }
-    </style>
-
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="assets/html5shiv.js"></script>
       <script src="assets/respond.min.js"></script>
     <![endif]-->
+
+    <link rel="stylesheet" href="http://basisjs.com/tools/highlight.css" type="text/css">
+    <script src="http://basisjs.com/tools/highlight.js"></script>
+
+    <style>
+      body {
+        padding-top: 50px;
+        padding-bottom: 20px;
+      }
+
+      .Basis-SyntaxHighlight
+      {
+        overflow: auto;
+        font-size: 90%;
+        margin: 0 0 .8em;
+      }
+      .Basis-SyntaxHighlight .lineContent
+      {
+        white-space: nowrap;
+        min-height: 1.4em;
+      }
+      .Basis-SyntaxHighlight .line
+      {
+        background: #F8F8F8;
+      }
+    </style>
   </head>
 
   <body>
@@ -43,8 +61,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">backbone.js plugin</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#bbt">backbone.js plugin</a></li>
           </ul>
         </div><!--/.navbar-collapse -->
       </div>
@@ -56,8 +73,14 @@
         <h1>basis-templates.js</h1>
         <p>basis.js template and l10n modules as standalone library</p>
         <p>
-          <a class="btn btn-primary btn-lg" href="#">Download now</a>
-          <div style="font-size: 60%; width: 20ex; text-align: center;">63.2 KB min</div>
+          <a class="btn btn-primary btn-lg" href="//basisjs.com/download/basis-templates-1.0-alpha.js">
+            Development
+            <span style="font-size: 60%; display: block; text-align: center;">180 KB</span>
+          </a>
+          <a class="btn btn-primary btn-lg" href="//basisjs.com/download/basis-templates-1.0-alpha.min.js">
+            Production
+            <span style="font-size: 60%; display: block; text-align: center;">63.2 KB min</span>
+          </a>
         </p>
       </div>
     </div>
@@ -74,9 +97,9 @@
         <div class="col-lg-6">
           <h2>Быстрый старт</h2>
           <p>Подключение библиотеки.</p>
-          <pre>&lt;script src="basis-templates.js">&lt;/script></pre>
+          <pre class="source-code">&lt;script src="basis-templates.js">&lt;/script></pre>
           <p>Описываем шаблон</p>
-          <pre>
+          <pre class="source-code">
 &lt;script type="text/basis-template" id="example">
   &lt;div class="block {foo}">
     &lt;h1>Hello {name}!&lt;/h1>
@@ -85,9 +108,12 @@
 &lt;/script>
           </pre>
           <p>Создаем и используем экземпляр шаблона</p>
-          <pre>
+          <pre class="source-code">
+// определяем шаблон
+var template = bt('id:example');
+
 // создаем
-var example = bt('id:example').createInstance(null, function(name, event){
+var example = template.createInstance(null, function(name, event){
   if (name == 'sayHello')
     alert('Hello' + event.name + '!');
 });
@@ -99,15 +125,301 @@ example.set('name', 'world');
 // вставка в документ
 document.body.appendChild(example.element);</pre>
           <p>Разрушение экземпляра</p>
-          <pre>
+          <pre class="source-code">
 bt.dispose(example);</pre>
-          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+          <p><a class="btn btn-default" href="https://github.com/basisjs/articles">Документация &raquo;</a></p>
         </div>
       </div>
-
-      <hr>
-
+    <br/>
+    <br/>
     </div> <!-- /container -->
+
+    <div class="jumbotron" id="bbt">
+      <div class="container">
+        <h1>Backbone plugin</h1>
+        <p>basis.js templates plugin for backbone.js</p>
+        <p>
+          <a class="btn btn-primary btn-lg" href="//basisjs.com/download/bbt-1.0-alpha.js">
+            Development
+            <span style="font-size: 60%; display: block; text-align: center;">183 KB</span>
+          </a>
+          <a class="btn btn-primary btn-lg" href="//basisjs.com/download/bbt-1.0-alpha.min.js">
+            Production
+            <span style="font-size: 60%; display: block; text-align: center;">64.2 KB min</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2>Как использовать</h2>
+      <p>При подключении, плагин добавляет в глобальную область видимости единственное имя bbt. Это значение является функцией, которая создает шаблон. В качестве значения можно задавать строку содержающую описание, либо строку с префиксом "id:" после которого следует идентификатор. В последнем случае будет использовано текстовое содержимое тега &lt;script> c таким идентификатором, при этом необходимо чтобы его type был равен "text/basis-template".</p>
+      <p>Шаблон задается как значение свойства el в конфиге View.</p>
+      <pre class="source-code">
+var Foo = Backbone.View.extend({
+  el: bbt('&lt;h1>Hello world&lt;/h1>')
+});
+var Bar = Backbone.View.extend({
+  el: bbt('id:templateId')
+});</pre>
+      <p>Для определения значений для шаблона, задается свойство binding.</p>
+      <pre class="source-code">
+var MyView = Backbone.View.extend({
+  el: bbt('id:templateId'),
+  binding: {
+    value: function(view){
+      return view.property;
+    },
+    eventValue: {
+      events: 'myEvent',
+      getter: function(view){
+        return view.propertyChangingOnMyEvent;
+      }
+    }
+  }
+});</pre>
+      <p>Для обращения к свойствам внутренних объектов View, можно использовать сокращенную запись.</p>
+      <pre class="source-code">
+var MyView = Backbone.View.extend({
+  el: bbt('id:templateId'),
+  binding: {
+    name: 'model:name',
+    age: 'model:' // если имя биндинга и имя поля в модели совпадают,
+                  // то можно не указывать имя поля
+  }
+});</pre>
+      <p>Для перевычисления значения биндинга, в зависимости от события вложенного объекта, такие события предваряются префиксом с названием свойства и ":".</p>
+      <pre class="source-code">
+var MyView = Backbone.View.extend({
+  el: bbt('id:templateId'),
+  binding: {
+    updateOnModelChange: {
+      events: 'model:change',
+      getter: function(view){
+        return view.model.firstName + ' ' + view.model.lastName;
+      }
+    }
+  }
+});</pre>
+      <p>Для обработки событий достаточно указать в описании шаблона атрибут с префиксом "event-", и чтобы у View был метод указанный в значении атрибута.</p>
+      <pre class="source-code">
+var MyView = Backbone.View.extend({
+  el: bbt('&lt;button event-click="sayHello">hello&lt;/button>'),
+  sayHello: function(event){
+    alert('Hello world!')
+  }
+});</pre>
+    </div>
+
+    <div class="container">
+      <h2>Пример TodoMVC</h2>
+      <h3>Шаблон</h3>
+      <div class="row">
+        <div class="col-lg-6">
+        <h4>Было</h4>
+        <pre class="source-code">
+&lt;script type="text/template" id="item-template">
+  &lt;div class="view">
+    &lt;input class="toggle" type="checkbox" &lt;%= completed ? 'checked' : '' %>>
+    &lt;label>&lt;%- title %>&lt;/label>
+    &lt;button class="destroy">&lt;/button>
+  &lt;/div>
+  &lt;input class="edit" value="&lt;%- title %>">
+&lt;/script></pre>
+        </div>
+        <div class="col-lg-6">
+        <h4>Стало</h4>
+        <pre class="source-code">
+&lt;script type="text/basis-template" id="item-template">
+  &lt;li class="{completed} {hidden} {editing}">
+    &lt;div class="view">
+      &lt;input class="toggle" type="checkbox" checked="{completed}" event-click="toggleCompleted" />
+      &lt;label event-dblclick="edit">{title}&lt;/label>
+      &lt;button class="destroy" event-click="clear">&lt;/button>
+    &lt;/div>
+    &lt;input{input} class="edit" value="{title}" event-keyup="updateOnEnter" event-blur="close" />
+  &lt;/li>
+&lt;/script></pre>
+        </div>
+      </div>
+      <h3>todo-view.js</h3>
+      <div class="row">
+        <div class="col-lg-6">
+          <h4>Было</h4>
+          <pre class="source-code">
+/*global Backbone, jQuery, _, ENTER_KEY */
+var app = app || {};
+
+(function ($) {
+  'use strict';
+
+  // Todo Item View
+  // --------------
+
+  // The DOM element for a todo item...
+  app.TodoView = Backbone.View.extend({
+    //... is a list tag.
+    tagName:  'li',
+
+    // Cache the template function for a single item.
+    template: _.template($('#item-template').html()),
+
+    // The DOM events specific to an item.
+    events: {
+      'click .toggle': 'toggleCompleted',
+      'dblclick label': 'edit',
+      'click .destroy': 'clear',
+      'keypress .edit': 'updateOnEnter',
+      'blur .edit': 'close'
+    },
+
+    // The TodoView listens for changes to its model, re-rendering. Since there's
+    // a one-to-one correspondence between a **Todo** and a **TodoView** in this
+    // app, we set a direct reference on the model for convenience.
+    initialize: function () {
+      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'destroy', this.remove);
+      this.listenTo(this.model, 'visible', this.toggleVisible);
+    },
+
+    // Re-render the titles of the todo item.
+    render: function () {
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$el.toggleClass('completed', this.model.get('completed'));
+      this.toggleVisible();
+      this.$input = this.$('.edit');
+      return this;
+    },
+
+    toggleVisible: function () {
+      this.$el.toggleClass('hidden', this.isHidden());
+    },
+
+    isHidden: function () {
+      var isCompleted = this.model.get('completed');
+      return (// hidden cases only
+        (!isCompleted && app.TodoFilter === 'completed') ||
+        (isCompleted && app.TodoFilter === 'active')
+      );
+    },
+
+    // Toggle the `"completed"` state of the model.
+    toggleCompleted: function () {
+      this.model.toggle();
+    },
+
+    // Switch this view into `"editing"` mode, displaying the input field.
+    edit: function () {
+      this.$el.addClass('editing');
+      this.$input.focus();
+    },
+
+    // Close the `"editing"` mode, saving changes to the todo.
+    close: function () {
+      var trimmedValue = this.$input.val().trim();
+      this.$input.val(trimmedValue);
+
+      if (trimmedValue) {
+        this.model.save({ title: trimmedValue });
+      } else {
+        this.clear();
+      }
+
+      this.$el.removeClass('editing');
+    },
+
+    // If you hit `enter`, we're through editing the item.
+    updateOnEnter: function (e) {
+      if (e.which === ENTER_KEY) {
+        this.close();
+      }
+    },
+
+    // Remove the item, destroy the model from *localStorage* and delete its view.
+    clear: function () {
+      this.model.destroy();
+    }
+  });
+})(jQuery);</pre>
+        </div>
+        <div class="col-lg-6">
+          <h4>Стало</h4>
+          <pre class="source-code">
+/*global Backbone, jQuery, _, ENTER_KEY */
+var app = app || {};
+
+(function ($) {
+  'use strict';
+
+  // Todo Item View
+  // --------------
+
+  // The DOM element for a todo item...
+  app.TodoView = Backbone.View.extend({
+    el: bbt('id:item-template'),
+
+    binding: {
+      completed: 'model:',
+      title: 'model:',
+      hidden: {
+        events: 'model:visible',
+        getter: function(view){
+          var isCompleted = view.model.get('completed');
+          return ( // hidden cases only
+            (!isCompleted && app.TodoFilter === 'completed')
+            || (isCompleted && app.TodoFilter === 'active')
+          );
+        }
+      }
+    },
+
+    // The TodoView listens for changes to its model, re-rendering. Since there's
+    // a one-to-one correspondence between a **Todo** and a **TodoView** in this
+    // app, we set a direct reference on the model for convenience.
+    initialize: function () {
+      this.listenTo(this.model, 'destroy', this.remove);
+    },
+
+    // Toggle the `"completed"` state of the model.
+    toggleCompleted: function () {
+      this.model.toggle();
+    },
+
+    // Switch this view into `"editing"` mode, displaying the input field.
+    edit: function () {
+      this.tmpl.set('editing', true);
+      this.tmpl.input.focus();
+    },
+
+    // Close the `"editing"` mode, saving changes to the todo.
+    close: function () {
+      var trimmedValue = this.tmpl.input.value.trim();
+
+      if (trimmedValue) {
+        this.model.save({ title: trimmedValue });
+      } else {
+        this.clear();
+      }
+
+      this.tmpl.set('editing', false);
+    },
+
+    // If you hit `enter`, we're through editing the item.
+    updateOnEnter: function (e) {
+      if (e.which === ENTER_KEY) {
+        this.close();
+      }
+    },
+
+    // Remove the item, destroy the model from *localStorage* and delete its view.
+    clear: function () {
+      this.model.destroy();
+    }
+  });
+})(jQuery);</pre>
+        </div>
+      </div>
+    </div>
 
   </body>
 </html>
