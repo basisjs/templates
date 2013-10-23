@@ -50,6 +50,16 @@
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
+        <div style="float: right; vertical-align: middle; padding: 14px 0; margin-right: -80px;">
+          <div style="width: 150px" class="fb-like" data-href="http://basisjs.com/templates" data-width="250" data-height="25" data-colorscheme="dark" data-layout="button_count" data-action="recommend" data-show-faces="false" data-send="false"></div>
+          <!--<span style="width: 180px; height: 25px;">
+            <a style="visibility: hidden" href="https://twitter.com/basisjs" class="twitter-follow-button" data-show-count="true">Follow @basisjs</a>
+          </span>-->
+          <span style="width: 107px; height: 25px;">
+            <a style="visibility: hidden" href="https://twitter.com/share" class="twitter-share-button"
+               data-url="http://basisjs.com/templates" data-text="basis.js template &amp; l10n modules as standalone library" data-via="basisjs">Tweet</a>
+          </span>
+        </div>
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
@@ -60,12 +70,16 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="#">Начало</a></li>
             <li><a href="#bbt">backbone.js plugin</a></li>
           </ul>
-        </div><!--/.navbar-collapse -->
+        </div>
       </div>
     </div>
+
+    <a href="https://github.com/basisjs/templates" style="position: absolute; top: 50px; right: 0; z-index: 1">
+      <img style="margin: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"/>
+    </a>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
@@ -90,9 +104,28 @@
       <div class="row">
         <div class="col-lg-6">
           <h2>Что это такое?</h2>
-          <p>basis-template.js - это быстрый низкоуровневый шаблонизатор. В то время, как большинство шаблонизаторов лишь производят некоторый HTML, данный шаблонизатор оперирует в терминах DOM, и не только произвонит DOM фрагмент из описания, но и занимается его обслуживанием, в чем и заключается его уникальность.</p>
+          <p>basis-template.js - это быстрый низкоуровневый шаблонизатор. В то время, как большинство шаблонизаторов лишь производят некоторый HTML, данный шаблонизатор оперирует в терминах DOM, и не только производит DOM фрагмент из описания, но и занимается дальнейшим его обслуживанием, в чем и заключается его уникальность.</p>
           <p>Этот шаблонизатор не расчитан на использование в исходном виде, а нацелен на встраивание в другие библиотеки и фреймворки, в виде модулей или плагинов, которые предоставляют более удобное API.</p>
           <p>На данный момент есть плагин для backbone.js.</p>
+          <h2>Презентация</h2>
+          <div style="position: relative">
+            <iframe id="slides" src="http://www.slideshare.net/slideshow/embed_code/27356908" width="100%" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen onresize=""></iframe>
+          </div>
+          <script>
+            (function(){
+              var slidesEl = document.getElementById('slides');
+              var onResizeHandler = function(){
+                slidesEl.style.height = parseInt(slidesEl.offsetWidth * 349 / 427, 10) + 'px';
+              };
+
+              if (window.addEventListener)
+                window.addEventListener('resize', onResizeHandler, false);
+              else
+                window.attachEvent('onresize', onResizeHandler);
+              
+              onResizeHandler();
+            })();
+          </script>
         </div>
         <div class="col-lg-6">
           <h2>Быстрый старт</h2>
@@ -127,7 +160,18 @@ document.body.appendChild(example.element);</pre>
           <p>Разрушение экземпляра</p>
           <pre class="source-code">
 bt.dispose(example);</pre>
-          <p><a class="btn btn-default" href="https://github.com/basisjs/articles">Документация &raquo;</a></p>
+
+          <h2>Документация</h2>
+          <div class="list-group">
+            <a href="https://github.com/basisjs/articles/blob/master/ru-RU/basis.template_format.md" target="_blank" class="list-group-item">
+              <h4 class="list-group-item-heading">Формат шаблонов</h4>
+              <p class="list-group-item-text">Статья о том, как описываются шаблоны и какие конструкции поддерживаются.</p>
+            </a>
+            <a href="https://github.com/basisjs/articles/blob/master/ru-RU/basis.template_bindings.md" target="_blank" class="list-group-item">
+              <h4 class="list-group-item-heading">Правила применения значений биндингам</h4>
+              <p class="list-group-item-text">Какие типы значений можно передавать шаблону и как они применяют.</p>
+            </a>
+          </div>
         </div>
       </div>
     <br/>
@@ -213,6 +257,8 @@ var MyView = Backbone.View.extend({
 
     <div class="container">
       <h2>Пример TodoMVC</h2>
+      <p>Примеренение плагина на примере реализации <a href="//todomvc.com" target="_blank">TodoMVC</a>. Использование basis-templates.js позволяет уменьшить количество исходного кода и <b>ускорить решение в 2,5 раза</b>.</p>
+      <p>Ниже приведены изменения, которые были внесены в оригинальное решение.</p>
       <h3>Шаблон</h3>
       <div class="row">
         <div class="col-lg-6">
@@ -420,6 +466,18 @@ var app = app || {};
         </div>
       </div>
     </div>
+
+    
+    <!-- social media -->
+    <script src="//platform.twitter.com/widgets.js"></script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
   </body>
 </html>
